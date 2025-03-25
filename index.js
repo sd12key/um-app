@@ -119,7 +119,7 @@ app.post("/login", (request, response) => {
   // tie session to logged-in username
   request.session.user = logged_in_user.username;
   console.log("Logged in successfully:", logged_in_user.username);
-  return response.status(200).redirect("/landing");
+  return response.redirect("/landing");
 });
 
 // GET /signup - Render signup form
@@ -199,7 +199,7 @@ app.post("/signup", (request, response) => {
 
   request.session.user = new_user.username;
   console.log("Logged in successfully:", new_user.username);
-  return response.status(200).redirect("/landing");
+  return response.redirect("/landing");
 });
 
 // GET /landing - render landing page
@@ -214,12 +214,21 @@ app.get("/landing", (request, response) => {
 
   const landing_user = USERS.find((user) => user.username === session_user);
 
-  return response.status(200).render("landing", {
+  return response.render("landing", {
     user: landing_user,
     users: landing_user.role === ROLE_ADMIN ? USERS : [],
   });
 });
 
+// GET /logout - redirect to landing page
+app.get("/logout", (request, response) => {
+  if (request.session.user) {
+    return response.redirect("/landing");
+  }
+  return response.redirect("/");
+});
+
+// POST /logout - log out user
 app.post("/logout", (request, response) => {
   request.session.destroy((error) => {
     if (error) {
@@ -228,7 +237,7 @@ app.post("/logout", (request, response) => {
     }
     console.log("Logged out successfully");
     // redirect to home page
-    return response.status(200).redirect("/");
+    return response.redirect("/");
   });
 });
 

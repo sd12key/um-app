@@ -1,0 +1,18 @@
+<%- include('partials/head', { title: "Home" }) %>
+<!---->
+<%- include('partials/header') %>
+<!---->
+<main class="main_container">
+  <h1>Welcome</h1>
+  <img class="home_picture" src="users.jpg" alt="Home Page" />
+  <span class="index_button_container">
+    <button class="login_button" onclick="window.location.href='/login'">
+      Login
+    </button>
+    <button class="signup_button" onclick="window.location.href='/signup'">
+      Sign Up
+    </button>
+  </span>
+</main>
+<!---->
+<%- include('partials/footer') %>

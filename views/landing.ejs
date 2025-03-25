@@ -1,0 +1,60 @@
+<%- include('partials/head', { title: "Landing" }) %>
+<!---->
+<%- include('partials/header') %>
+<!---->
+<main class="main_container">
+  <h1>Dashboard</h1>
+  <!-- current user -->
+  <div class="user_info_block">
+    <div
+      class="<%= user.role === 'admin' ? 'admin_role_div' : 'user_role_div' %>"
+    >
+      <%= user.role.toUpperCase() %>
+    </div>
+    <div class="user_info">
+      <p>Username:</p>
+      <h2><%= user.username %></h2>
+    </div>
+    <div class="user_info">
+      <p>Email:</p>
+      <h3><%= user.email %></h3>
+    </div>
+  </div>
+
+  <!-- admin-only -->
+  <% if (users.length >= 1) { %>
+  <div class="users_list_block">
+    <% if (users.length > 1) { %>
+    <h3>Registered Users:</h3>
+    <% users.forEach((u) => { %> <% if (u.id !== user.id) { %>
+    <div class="user_card">
+      <div
+        class="<%= u.role === 'admin' ? 'admin_role_div' : 'user_role_div' %>"
+      >
+        <%= u.role.toUpperCase() %>
+      </div>
+
+      <div class="user_info_card">
+        <p>Username:</p>
+        <h3><%= u.username %></h3>
+      </div>
+      <div class="user_info_card">
+        <p>Email:</p>
+        <h4><%= u.email %></h4>
+      </div>
+    </div>
+    <% } %> <% }); %> <% } else if (users[0].id === user.id) { %>
+    <h3>No Registered Users</h3>
+    <% } %>
+  </div>
+  <% } %>
+
+  <!-- Logout -->
+  <span class="index_button_container">
+    <form method="POST" action="/logout">
+      <button class="logout_button" type="submit">Log Out</button>
+    </form>
+  </span>
+</main>
+
+<%- include('partials/footer') %>
